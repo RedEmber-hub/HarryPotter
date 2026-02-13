@@ -6,35 +6,9 @@ const characters = ref<CharacterInterface[]>([]);
 const currentCharacter = ref<CharacterInterface | null>(null);
 const characterHouse = ref<'Gryffindor' | 'Slytherin' | null>(null);
 
-async function fetchCharacters() {
-  const response = await fetch('https://hp-api.onrender.com/api/characters');
-  const data = await response.json();
-  console.log(data);
-  return data;
-}
-
 onMounted(async () => {
   characters.value = await fetchCharacters();
 });
-
-// function characterInformation(character: CharacterInterface) {
-//   currentCharacter.value = character;
-//   console.log(character);
-// }
-
-async function characterInformationByID(id: string) {
-  const response = await fetch(`https://hp-api.onrender.com/api/character/${id}`);
-  const data = await response.json();
-  console.log(data);
-  return data;
-}
-
-async function getCharacterInformationByHouse(house: 'Gryffindor' | 'Slytherin' | null) {
-  const response = await fetch(`https://hp-api.onrender.com/api/characters/house/${house}`);
-  const data = await response.json();
-  console.log(data);
-  return data;
-}
 
 async function onChange(value: 'Gryffindor' | 'Slytherin' | null) {
   characters.value = await getCharacterInformationByHouse(value);
