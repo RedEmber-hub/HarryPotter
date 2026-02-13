@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
-import type { CharacterInterface } from './assets/Character.type';
-import Text from './sdk/components/atoms/Text.vue';
+import { CharacterInterface } from './types/Character.type';
 
 const characters = ref<CharacterInterface[]>([]);
 const currentCharacter = ref<CharacterInterface | null>(null);
