@@ -10,7 +10,7 @@
 
     <div class="card__footer">
       <div class="card__cardName">
-        <Text as="span" :text="name" />
+        <Text as="span" :text="alternateName" />
       </div>
 
       <div class="card__cardDescription">
@@ -38,6 +38,11 @@ const props = defineProps({
   name: {
     type: String,
     required: true,
+  },
+
+  alternateName: {
+    type: String,
+    default: '',
   },
 
   description: {

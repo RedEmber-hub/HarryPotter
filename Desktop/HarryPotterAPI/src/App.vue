@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
 import { CharacterInterface } from './types/Character.type';
+import { characterInformationByID, fetchCharacters, getCharacterInformationByHouse } from './api/character';
+import Card from './components/molecules/Card.vue';
 
 const characters = ref<CharacterInterface[]>([]);
 const currentCharacter = ref<CharacterInterface | null>(null);
@@ -12,6 +14,8 @@ onMounted(async () => {
 
 async function onChange(value: 'Gryffindor' | 'Slytherin' | null) {
   characters.value = await getCharacterInformationByHouse(value);
+
+  console.log(characters.value);
 }
 </script>
 
@@ -34,10 +38,13 @@ async function onChange(value: 'Gryffindor' | 'Slytherin' | null) {
           :key="character.id"
           @click="characterInformationByID(character.id)"
         >
-          <img :src="character.image" alt="Фото персонажа" />
-          <span class="characterCard__name">{{ character.name }}</span>
-          <span class="characterCard__gender">{{ character.gender }}</span>
-          <span class="characterCard__house">{{ character.house }}</span>
+          <Card
+            :imageSrc="character.image"
+            :character="character.name"
+            :name="character.name"
+            :alternateName="character.alternate_names"
+            :description="character.hairColour"
+          />
         </div>
       </div>
 
