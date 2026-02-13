@@ -1,43 +1,21 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
 import { CharacterInterface } from './types/Character.type';
+import { characterInformationByID, fetchCharacters, getCharacterInformationByHouse } from './api/character';
+import Card from './components/molecules/Card.vue';
 
 const characters = ref<CharacterInterface[]>([]);
 const currentCharacter = ref<CharacterInterface | null>(null);
 const characterHouse = ref<'Gryffindor' | 'Slytherin' | null>(null);
 
-async function fetchCharacters() {
-  const response = await fetch('https://hp-api.onrender.com/api/characters');
-  const data = await response.json();
-  console.log(data);
-  return data;
-}
-
 onMounted(async () => {
   characters.value = await fetchCharacters();
 });
 
-// function characterInformation(character: CharacterInterface) {
-//   currentCharacter.value = character;
-//   console.log(character);
-// }
-
-async function characterInformationByID(id: string) {
-  const response = await fetch(`https://hp-api.onrender.com/api/character/${id}`);
-  const data = await response.json();
-  console.log(data);
-  return data;
-}
-
-async function getCharacterInformationByHouse(house: 'Gryffindor' | 'Slytherin' | null) {
-  const response = await fetch(`https://hp-api.onrender.com/api/characters/house/${house}`);
-  const data = await response.json();
-  console.log(data);
-  return data;
-}
-
 async function onChange(value: 'Gryffindor' | 'Slytherin' | null) {
   characters.value = await getCharacterInformationByHouse(value);
+
+  console.log(characters.value);
 }
 </script>
 
@@ -60,10 +38,13 @@ async function onChange(value: 'Gryffindor' | 'Slytherin' | null) {
           :key="character.id"
           @click="characterInformationByID(character.id)"
         >
-          <img :src="character.image" alt="Фото персонажа" />
-          <span class="characterCard__name">{{ character.name }}</span>
-          <span class="characterCard__gender">{{ character.gender }}</span>
-          <span class="characterCard__house">{{ character.house }}</span>
+          <Card
+            :imageSrc="character.image"
+            :character="character.name"
+            :name="character.name"
+            :alternateName="character.alternate_names"
+            :description="character.hairColour"
+          />
         </div>
       </div>
 
